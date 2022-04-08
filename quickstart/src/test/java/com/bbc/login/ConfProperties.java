@@ -1,4 +1,4 @@
-package ru.diary;
+package com.bbc.login;
 
 import java.io.FileInputStream;
 import java.io.IOException;

@@ -1,7 +1,6 @@
-package ru.diary;
+package com.bbc.login;
 
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
@@ -20,24 +19,31 @@ import java.util.concurrent.TimeUnit;
             loginPage = new LoginPage(driver);
             driver.manage().window().maximize();
             driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-            driver.get(ConfProperties.getProperty("loginpage"));
+            driver.get(ConfProperties.getProperty("bbc"));
         }
 
         @Test
         public void loginTest() {
-            loginPage.inputLogin(ConfProperties.getProperty("login"));
-            loginPage.inputPasswd(ConfProperties.getProperty("password"));
-            loginPage.clickLoginBtn();
-            String actualUrl = "https://diary.ru/";
-            String expectedUrl = driver.getCurrentUrl();
-            if (actualUrl.equalsIgnoreCase(expectedUrl)) {
-                System.out.println("Вход выполнен");
-            } else {
-                System.out.println("Вход не выполнен, возможно, там капча");
+            try {
+                loginPage.clickSingIn();
+                loginPage.clickLoginField();
+                loginPage.inputLogin(ConfProperties.getProperty("login"));
+                loginPage.clickPasswdField();
+                loginPage.inputPasswd(ConfProperties.getProperty("password"));
+                loginPage.clickLoginBtn();//Войти
+                loginPage.clickYourAccount();
+                System.out.println("Авторизация проведена успешно");
             }
-            Assert.assertEquals(actualUrl, expectedUrl);
-        }
+            catch (Exception e) {
+                e.printStackTrace();
+            System.out.println("Вход не выполнен");
+            }
+                      }
+
+
         @AfterClass
         public static void tearDown() {
             driver.quit(); }
     }
+
+
